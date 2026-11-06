@@ -341,7 +341,7 @@ class MainActivity : AppCompatActivity() {
         // 5초 뒤로 (⏪5s)
         btnPlayerRewind5.setOnClickListener {
             mediaPlayer?.let { player ->
-                val newPos = max(0, player.currentPosition - 5000)
+                val newPos = maxOf(0, player.currentPosition - 5000)
                 player.seekTo(newPos)
                 sbPlayerProgress.progress = newPos
                 updatePlayerTimeDisplay(newPos, player.duration)
@@ -360,7 +360,7 @@ class MainActivity : AppCompatActivity() {
         // 5초 앞으로 (5s⏩)
         btnPlayerForward5.setOnClickListener {
             mediaPlayer?.let { player ->
-                val newPos = min(player.duration, player.currentPosition + 5000)
+                val newPos = minOf(player.duration, player.currentPosition + 5000)
                 player.seekTo(newPos)
                 sbPlayerProgress.progress = newPos
                 updatePlayerTimeDisplay(newPos, player.duration)
