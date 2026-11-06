@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingStart="12dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="8dp">
+
+    <!-- 1. 최상단 헤더 (상태바): [영상엠피뜨뤼 by 피피] & 우측 요약 상태창 [완료/추출중]   [N곡] (녹색 #81C784) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvHeaderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="[영상엠피뜨뤼 by 피피]"
+            android:textColor="@color/on_surface"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvHeaderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[완료]   [0곡]"
+            android:textColor="@color/secondary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 2. 추출부 상단 3dp 회색 구분바 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/divider_gray" />
+
+    <!-- 3. 추출 조작 영역: [♠ 장식] / [📁 파일] / [🎬 파일명 표시창] / [⚡ 추출] (4개 컨트롤 42dp 높이 100% 완전 일치) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- [♠ 장식 버튼 (기능 없는 순수 디자인용)] -->
+        <TextView
+            android:id="@+id/btnRecord"
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_spade_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="♠"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <!-- [📁 파일] 버튼 (기준 높이 42dp 칼일치 플랫 버튼) -->
+        <TextView
+            android:id="@+id/btnFile"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_flat_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="📁 파일"
+            android:textColor="@color/on_surface"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- [선택된 파일명 표시창 + ✕] 박스 -->
+        <LinearLayout
+            android:id="@+id/layoutYoutubeInputBox"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@color/surface"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
+
+            <TextView
+                android:id="@+id/btnLinkPaste"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="🎬"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/etYoutubeUrl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="동영상 파일을 선택하세요"
+                android:maxLines="1"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:singleLine="true"
+                android:textColor="@color/on_surface"
+                android:textColorHint="@color/on_surface_secondary"
+                android:textSize="12sp" />
+
+            <ImageButton
+                android:id="@+id/btnClearUrl"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:tint="@color/on_surface_secondary" />
+        </LinearLayout>
+
+        <!-- [⚡ 추출] 버튼 (기준 높이 42dp 칼일치 플랫 버튼) -->
+        <TextView
+            android:id="@+id/btnStartExtract"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_flat_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="⚡ 추출"
+            android:textColor="@color/on_surface"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 4. 추출부 하단 3dp 회색 구분바 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/divider_gray" />
+
+    <!-- 5. 전용 플레이어 영역 (곡 제목 마퀴, 탐색바, 좌측 모드 3버튼, 우측 제어 5버튼) -->
+    <LinearLayout
+        android:id="@+id/layoutPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- 곡 제목 (마퀴 스크롤) -->
+        <TextView
+            android:id="@+id/tvPlayerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="재생할 곡을 선택하세요"
+            android:textColor="@color/on_surface"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <!-- 탐색바 (SeekBar 좌우 10dp 여백 축소) & 시간 표시 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <SeekBar
+                android:id="@+id/sbPlayerProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:progress="0"
+                android:progressTint="@color/primary"
+                android:thumbTint="@color/primary" />
+
+            <TextView
+                android:id="@+id/tvPlayerTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00 / 00:00"
+                android:textColor="@color/on_surface_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- 버튼 영역: 좌측 3버튼(1곡/전체/랜덤) 28dp(70%) 축소 & 우측 5버튼(이전/5s/재생·정지/5s/다음) 40~44dp 시원한 확대 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- 좌측 재생 모드 3버튼 (28dp 콤팩트 사이즈) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnModeRepeatOne"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_repeat_one"
+                    android:tint="@color/on_surface_secondary" />
+
+                <ImageButton
+                    android:id="@+id/btnModeRepeatAll"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_repeat"
+                    android:tint="@color/on_surface_secondary" />
+
+                <ImageButton
+                    android:id="@+id/btnModeShuffle"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_shuffle"
+                    android:tint="@color/on_surface_secondary" />
+            </LinearLayout>
+
+            <!-- 가운데 가변 여백 -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- 우측 재생 제어 5버튼 (40~44dp 큼직한 화이트 벡터 제어계) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- 이전곡 (⏮) -->
+                <ImageButton
+                    android:id="@+id/btnPlayerPrev"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_skip_previous"
+                    android:tint="#FFFFFF" />
+
+                <!-- 5초 뒤로 (⏪5s) -->
+                <ImageButton
+                    android:id="@+id/btnPlayerRewind5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_fast_rewind"
+                    android:tint="#FFFFFF" />
+
+                <!-- 재생 / 정지 토글 (▶ / ⏹) -->
+                <ImageButton
+                    android:id="@+id/btnPlayerPlayStop"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_play_arrow"
+                    android:tint="#FFFFFF" />
+
+                <!-- 5초 앞으로 (5s⏩) -->
+                <ImageButton
+                    android:id="@+id/btnPlayerForward5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_fast_forward"
+                    android:tint="#FFFFFF" />
+
+                <!-- 다음곡 (⏭) -->
+                <ImageButton
+                    android:id="@+id/btnPlayerNext"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/bg_flat_btn"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_skip_next"
+                    android:tint="#FFFFFF" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 6. 리스트 헤더 영역: 일반 모드와 선택 모드 모두 36dp 고정 높이 통일 (리스트 밀림 0% 원천 차단) -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="6dp">
+
+        <!-- 일반 모드 헤더 (36dp 고정) -->
+        <LinearLayout
+            android:id="@+id/layoutNormalHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnPlayAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="전체 재생"
+                android:textColor="@color/on_surface"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/btnEnterSelectMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:text="선택"
+                android:textColor="@color/on_surface_secondary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 다중 선택 모드 헤더 (36dp 고정, 동일 높이) -->
+        <LinearLayout
+            android:id="@+id/layoutSelectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/cbSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/secondary"
+                android:text="전체"
+                android:textColor="@color/on_surface"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvSelectedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="0개 선택됨"
+                android:textColor="@color/secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/btnDeleteSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_flat_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="삭제"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnAddToPlaylist"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_flat_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="재생목록 추가"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnCancelSelection"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/bg_flat_btn"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="취소"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- 7. 추출된 MP3 목록 (당겨서 새로고침 지원) -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMp3List"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvEmptyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="추출된 음원 파일이 없습니다.\n[📁 파일]을 눌러 동영상에서 음원을 추출해보세요!"
+                android:textAlignment="center"
+                android:textColor="@color/on_surface_secondary"
+                android:textSize="13sp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>
